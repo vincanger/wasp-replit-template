@@ -1,40 +1,91 @@
-import waspLogo from './waspLogo.png'
-import './Main.css'
+import './Main.css';
+import React from 'react';
+import logout from '@wasp/auth/logout.js';
+import useAuth from '@wasp/auth/useAuth.js';
+// Wasp uses a thin wrapper around react-query
+import { useQuery } from '@wasp/queries'; 
+import getTasks from '@wasp/queries/getTasks';
+import createTask from '@wasp/actions/createTask';
+import updateTask from '@wasp/actions/updateTask';
+import waspLogo from './waspLogo.png';
 
 const MainPage = () => {
+  const { data: tasks, isLoading, error } = useQuery(getTasks);
+  const { data: user } = useAuth();
+
+  React.useEffect(() => {
+    console.log(user);
+  }, [user]);
+
+  if (isLoading) return 'Loading...';
+  if (error) return 'Error: ' + error;
+
   return (
-    <div className="container">
-      <main>
-        <div className="logo">
-          <img src={waspLogo} alt="wasp" />
-        </div>
+    <main>
+      <img src={waspLogo} alt='wasp logo' />
+      <h1>
+        {user.username}
+        {`'s tasks :)`}
+      </h1>
+      <NewTaskForm />
+      {tasks && <TasksList tasks={tasks} />}
+      <button onClick={logout}> Logout </button>
+    </main>
+  );
+};
 
-        <h2 className="welcome-title"> Welcome to Wasp - you just started a new app! </h2>
-        <h3 className="welcome-subtitle">
-          This is page <code>MainPage</code> located at route <code>/</code>.
-          Open <code>src/client/MainPage.jsx</code> to edit it.
-        </h3>
+const Task = (props) => { 
+  const handleIsDoneChange = async (event) => {
+    try {
+      await updateTask({
+        taskId: props.task.id,
+        data: { isDone: event.target.checked },
+      });
+    } catch (error) {
+      window.alert('Error while updating task: ' + error.message);
+    }
+  };
 
-        <div className="buttons">
-          <a
-            className="button button-filled"
-            href="https://wasp-lang.dev/docs/tutorials/todo-app"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            Take the Tutorial
-          </a>
-          <a
-            className="button button-outline"
-            href="https://discord.com/invite/rzdnErX"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            Chat on Discord
-          </a>
-        </div>
-      </main>
+  return (
+    <div>
+      <span>
+        {props.number + 1}
+        {''}
+      </span>
+      <input type='checkbox' id={props.task.id} checked={props.task.isDone} onChange={handleIsDoneChange} />
+      <span>{props.task.description}</span>{' '}
     </div>
-  )
-}
-export default MainPage
+  );
+};
+
+const TasksList = (props) => {
+  if (!props.tasks?.length) return 'No tasks';
+  
+  return (
+    <div className='tasklist'>
+      {props.tasks.map((task, idx) => <Task task={task} number={idx} key={idx} />)}
+    </div>
+  );
+};
+
+const NewTaskForm = () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const description = event.target.description.value;
+      event.target.reset();
+      await createTask({ description });
+    } catch (err) {
+      window.alert('Error: ' + err.message);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input name='description' type='text' defaultValue='' />
+      <input type='submit' value='Create task' />
+    </form>
+  );
+};
+
+export default MainPage;

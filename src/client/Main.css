@@ -4,24 +4,8 @@
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-}
-
-.container {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 main {
-  padding: 5rem 0;
+  padding: 1rem 0;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -29,55 +13,21 @@ main {
   align-items: center;
 }
 
+h1 {
+  padding: 0;
+  margin: 1rem 0;
+}
+
 main p {
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
-.logo {
-  margin-bottom: 2rem;
+img {
+  max-height: 100px;
 }
 
-.logo img {
-  max-height: 200px;
-}
-
-.welcome-title {
-  font-weight: 500;
-}
-
-.welcome-subtitle {
-  font-weight: 400;
-  margin-bottom: 3rem;
-}
-
-.buttons {
-  display: flex;
-  flex-direction: row;
-}
-
-.buttons .button:not(:last-child) {
-  margin-right: 0.5rem;
-}
-
-.button {
-  border-radius: 3px;
-  font-size: 1.2rem;
-  padding: 1rem 2rem;
-  text-align: center;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-.button-filled {
-  border: 2px solid #bf9900;
-  background-color: #bf9900;
-  color: #f4f4f4;
-}
-
-.button-outline {
-  border: 2px solid #8a9cff;
-  color: #8a9cff;
-  background-color: none;
+button {
+  margin-top: 1rem;
 }
 
 code {
@@ -86,4 +36,18 @@ code {
   background: #efefef;
   font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
     Bitstream Vera Sans Mono, Courier New, monospace;
+}
+
+.auth-form h2 {
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.tasklist {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 300px;
+  margin-top: 1rem;
 }
