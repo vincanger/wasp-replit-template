@@ -22,6 +22,9 @@ pattern = "**/*..wasp"
 [languages.wasp.languageServer]
 start = "wasp waspls"
 
+[gitHubImport]
+requiredFiles = [".replit", "replit.nix"]
+
 [[ports]]
 localPort = 3001
 externalPort = 8099
