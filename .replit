@@ -1,0 +1,22 @@
+hidden = [".config", ".wasproot"]
+
+entrypoint = "main.wasp"
+run = "wasp start"
+
+[nix]
+channel = "unstable"
+
+[env]
+XDG_CONFIG_HOME = "/home/runner/.config"
+PATH = "/home/runner/$REPL_SLUG/.config/bin:$PATH"
+# PATH = "/home/runner/.local/bin:$PATH"
+REACT_APP_API_URL="https://$REPL_SLUG.$REPL_OWNER.repl.co:8099"
+WASP_WEB_CLIENT_URL="https://$REPL_SLUG.$REPL_OWNER.repl.co"
+WASP_TELEMETRY_DISABLE="1"
+WASP_TELEMETRY_CONTEXT="replit"
+PRISMA_CLIENT_ENGINE_TYPE="binary"
+PRISMA_CLI_QUERY_ENGINE_TYPE="binary"
+
+[[ports]]
+localPort = 3001
+externalPort = 8099
